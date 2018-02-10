@@ -3,6 +3,7 @@ Logging service for tracking dr tree changes from root objective
 and record every step that incrementally changes the dr tree
 
 '''
+from __future__ import print_function
 import os, sys, time
 import json
 import psutil
@@ -144,6 +145,6 @@ class DrWrtProfiler(object):
         self.history.append(rec)
 
     def harvest(self):
-        print 'collecting and dump to file %s' % self.path
+        print('collecting and dump to file %s' % self.path)
         with open(self.path, 'w') as f:
             json.dump(self.history, f, indent=4)

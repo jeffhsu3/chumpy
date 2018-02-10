@@ -2,9 +2,9 @@ import sys
 import warnings
 import numpy as np
 import scipy.sparse as sp
-import ch, utils
-from ch import pif
-from utils import timer
+from . import ch
+from .ch import pif
+from .utils import timer, dfs_do_func_on_graph
 
 
 def clear_cache_single(node):
@@ -63,7 +63,7 @@ class ChInputsStacked(ch.Ch):
 
                 jacs.append(new_jac)
             tm = timer()
-            utils.dfs_do_func_on_graph(self.obj, clear_cache_single)
+            dfs_do_func_on_graph(self.obj, clear_cache_single)
             pif('dfs_do_func_on_graph in {}sec'.format(tm()))
             tm = timer()
             J = hstack(jacs)
