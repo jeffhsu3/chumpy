@@ -412,7 +412,7 @@ class Concatenate(ch.Ch):
                 
         res = sp.csc_matrix((data, (IS, JS)), shape=(self.r.size, wrt.size))
         
-        if len(self._parents.keys()) != 1:
+        if len(list(self._parents.keys())) != 1:
             self.dr_cached[wrt] = res
         else:
             self.dr_cached[wrt] = None

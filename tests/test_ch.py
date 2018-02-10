@@ -13,7 +13,7 @@ import unittest
 import numpy as np
 import scipy.sparse as sp
 
-import ch
+import chumpy as ch
 
 class TestCh(unittest.TestCase):
 
@@ -258,7 +258,7 @@ class TestCh(unittest.TestCase):
         self.assertTrue(dr2 is not dr1)
 
     def test_transpose(self):
-        from utils import row, col
+        from chumpy.utils import row, col
         from copy import deepcopy
         for which in ('C', 'F'): # test in fortran and contiguous mode
             a = ch.Ch(np.require(np.zeros(8).reshape((4,2)), requirements=which))
@@ -311,8 +311,9 @@ class TestCh(unittest.TestCase):
         tmp = pickle.loads(pickle.dumps(tmp))
         tmp.b.x = 30
         self.assertTrue(tmp.r[0] == 40)
-        self.assertTrue(tmp.a._parents.keys()[0] == tmp)
-        self.assertTrue(tmp.a._parents.keys()[0] == tmp.b._parents.keys()[0])
+        self.assertTrue(list(tmp.a._parents.keys())[0] == tmp)
+        self.assertTrue(list(tmp.a._parents.keys())[0] ==\
+                list(tmp.b._parents.keys())[0])
 
     def test_chlambda1(self):
         c1, c2, c3 = ch.Ch(1), ch.Ch(2), ch.Ch(3)
@@ -346,7 +347,7 @@ class TestCh(unittest.TestCase):
 
 
     def test_amax(self):
-        from ch import amax
+        from chumpy import amax
         import numpy as np
         arr = np.empty((5,2,3,7))
         arr.flat[:] = np.sin(np.arange(arr.size)*1000.)
@@ -359,8 +360,8 @@ class TestCh(unittest.TestCase):
             self.assertTrue(np.max(np.abs(pred-real)) < 1e-10)
 
     def test_maximum(self):
-        from utils import row, col
-        from ch import maximum
+        from chumpy.utils import row, col
+        from chumpy import maximum
 
         # Make sure that when we compare the max of two *identical* numbers,
         # we get the right derivatives wrt both
@@ -436,7 +437,7 @@ class TestCh(unittest.TestCase):
 
 
     def test_matmatmult(self):
-        from ch import dot
+        from chumpy import dot
         mtx1 = ch.Ch(np.arange(6).reshape((3,2)))
         mtx2 = ch.Ch(np.arange(8).reshape((2,4))*10)
 
